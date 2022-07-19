@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const cheerio = require('cheerio');
 const axios = require('axios');
-
+const fs = require('fs');
 
 const PORT = process.env.port || 3000;
 
@@ -25,10 +25,13 @@ try{
                 url,
             });
 
+            
             app.get('/', (req, res) => {
                 res.json(content);
             });
         });
+        let contentToJSON = JSON.stringify(content);
+        fs.writeFileSync('json/scraped-data.json', contentToJSON);
     });
 } catch(error) {
     console.log(error, error.message);
